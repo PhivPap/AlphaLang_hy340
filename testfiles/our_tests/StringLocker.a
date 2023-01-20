@@ -1,0 +1,50 @@
+// String Locker: attempts to find a string changing only 1 char at a time.
+/*
+calling stringLocker("fsxor", 5);
+
+expected output:
+
+string: fsxor found after 2617177 failed tries
+
+// Run time: 11.677269s
+// All heap blocks were freed -- no leaks are possible
+*/
+
+
+function stringLocker(string, stringLength){
+	t = [ {0:"a"}, {1:"b"}, {2:"c"}, {3:"d"}, {4:"e"}, {5:"f"}, {6:"g"}, {7:"h"}, {8:"i"},
+		  {9:"j"}, {10:"k"}, {11:"l"}, {12:"m"}, {13:"n"}, {14:"o"}, {15:"p"}, {16:"q"},
+		  {17:"r"}, {18:"s"}, {19:"t"}, {20:"u"}, {21:"v"}, {22:"w"}, {23:"x"}, {24:"y"},
+		  {25:"z"} ];
+
+	counter = 0;
+	lastCharIdx = stringLength - 1;
+	charIdxCounter;
+	search;
+	s = [];
+	for(i=0; i<stringLength; i++){
+		s[i] = 0;
+	}
+	while(true){
+		search = "";
+		for(i=0; i<stringLength; i++){
+			search = search + t[s[i]];
+		}
+		if(search == string)
+			break;
+
+		charIdxCounter = lastCharIdx;
+		s[charIdxCounter]++;
+		while(s[charIdxCounter] == 26){
+			s[charIdxCounter] = 0;
+			s[--charIdxCounter]++;
+		}
+
+		
+		counter++;
+	}
+	print("string: ", string, " found after ", counter, " failed tries\n");
+}
+
+
+stringLocker("fsxor", 5); // match the number with strlen of string. Only use lowercase latin.

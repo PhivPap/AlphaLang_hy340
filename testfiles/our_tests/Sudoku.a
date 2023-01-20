@@ -1,0 +1,143 @@
+// Sudoku Solver
+/*
+expected output:
+
+Trying to solve sudo:
+8 0 0 0 0 0 0 0 0
+0 0 3 6 0 0 0 0 0
+0 7 0 0 9 0 2 0 0
+0 5 0 0 0 7 0 0 0
+0 0 0 0 4 5 7 0 0
+0 0 0 1 0 0 0 3 0
+0 0 1 0 0 0 0 6 8
+0 0 8 5 0 0 0 1 0
+0 9 0 0 0 0 4 0 0
+----------------------
+
+8 1 2 7 5 3 6 4 9
+9 4 3 6 8 2 1 7 5
+6 7 5 4 9 1 2 8 3
+1 5 4 2 3 7 8 9 6
+3 6 9 8 4 5 7 2 1
+2 8 7 1 6 9 5 3 4
+5 2 1 9 7 4 3 6 8
+4 3 8 5 2 6 9 1 7
+7 9 6 3 1 8 4 5 2
+
+
+//Some still reachable bytes due to global arrays.
+*/
+
+DIM = 9;
+
+table = [
+			[0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0]
+		];
+
+arto_inkala = 	[
+					[8, 0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 3, 6, 0, 0, 0, 0, 0],
+					[0, 7, 0, 0, 9, 0, 2, 0, 0],
+					[0, 5, 0, 0, 0, 7, 0, 0, 0],
+					[0, 0, 0, 0, 4, 5, 7, 0, 0],
+					[0, 0, 0, 1, 0, 0, 0, 3, 0],
+					[0, 0, 1, 0, 0, 0, 0, 6, 8],
+					[0, 0, 8, 5, 0, 0, 0, 1, 0],
+					[0, 9, 0, 0, 0, 0, 4, 0, 0]
+				];
+
+function checkRow(t,row, num){
+	for(col = 0; col < DIM; col++)
+		if(t[row][col] == num)
+			return false;
+	return true;
+}
+
+function checkCol(t,col, num){
+	for(row = 0; row < DIM; row++)
+		if(t[row][col] == num)
+			return false;
+	return true;
+}
+
+function hash(idx){
+	return idx - idx % 3;
+}
+
+function checkSubGrid(t,row, col, num){
+	for(r = 0; r < 3; r++)
+		for(c = 0; c < 3; c++)
+			if(t[r + row][c + col] == num)
+				return false;
+	return true;
+}
+
+function isValid(t,row, col, num){
+	return  checkRow(t,row,num) and
+			checkCol(t,col,num) and
+			checkSubGrid(t,hash(row),hash(col),num);
+}
+
+function findNextEmptyCell(t){
+	for(row = 0; row < DIM; row++)
+		for (col = 0; col < DIM; col++)
+			if (t[row][col] == 0)
+				return [row,col];
+	return nil;
+}
+
+function print_table(t){
+	for(row = 0; row < DIM; row++){
+		for (col = 0; col < DIM; col++)
+				print(t[row][col]," ");
+		print("\n");
+	}
+}
+
+function solve_sudo(t){
+	
+
+	tmp = findNextEmptyCell(t);
+	
+	if(nil == tmp)
+		return true;
+
+	row = tmp[0];
+	col = tmp[1];
+
+	for(num = 1; num <= 9; num++){
+		
+		if(isValid(t, row, col, num)){
+			t[row][col] = num;
+
+			if(solve_sudo(t))
+				return true;
+
+			t[row][col] = 0;
+		}
+	}
+
+	return false;
+}
+
+function main(){
+	print("Trying to solve sudo:\n");
+	print_table(arto_inkala);
+	print("----------------------\n\n");
+	if(solve_sudo(arto_inkala) == true)
+		print_table(arto_inkala);
+	else
+		print("no solution.\n");
+}
+
+
+
+main();

@@ -1,0 +1,39 @@
+/*
+    Test file for the final phase of HY-340: Languages & Compilers
+    Computer science dpt, University of Crete, Greece
+
+    Expected Output:
+    To print all prime numbers between 1 to 100
+    3.000, 5.000, 7.000, 11.000, 13.000, 17.000, 19.000, 23.000, 29.000, 31.000, 37.000, 41.000, 43.000, 47.000, 53.000, 59.000, 61.000, 67.000, 71.000, 73.000, 79.000, 83.000, 89.000, 97.000,
+
+*/
+
+
+/* ======== NESTED LOOPS - print prime numbers between 1 to 100 ======== */
+
+N=100;
+
+print("To print all prime numbers between 1 to 100\n");
+
+/* For every number between 2 to N, check
+whether it is prime number or not */
+i=3;
+while(i <= N){
+    isPrime = 0;
+    /* Check whether i is prime or not */
+    for(j = 2; j <= i/2; j++){
+         /* Check If any number between 2 to i/2 divides I
+          completely If yes the i cannot be prime number */
+         if(i % j == 0){
+             isPrime = 1;
+             break;
+         }
+    }
+
+    if (isPrime==0 and N!= 1){
+      print(i);
+      print(", ");
+    }
+    i++;
+}
+print("\n");

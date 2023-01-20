@@ -1,0 +1,159 @@
+/*
+    Test file for the final phase of HY-340: Languages & Compilers
+    Computer science dpt, University of Crete, Greece
+
+    Expected Output:
+	1.000
+	hello
+	fract(1): 1.000  (must be 1)
+	fract(2): 2.000  (must be 2)
+	fract(3): 6.000  (must be 6)
+	fract(4): 24.000  (must be 24)
+	foo: 10.000
+	foo2: 9.000
+	foo3: 10.000
+	foo: 8.000
+	foo2: 7.000
+	foo3: 8.000
+	foo: 6.000
+	foo2: 5.000
+	foo3: 6.000
+	foo: 4.000
+	foo2: 3.000
+	foo3: 4.000
+	foo: 2.000
+	foo2: 1.000
+	foo3: 2.000
+	foo: 0.000
+	hello world
+	hello world inside
+	bar_
+	zero
+	zero
+	one
+	scope1
+	scope2
+	global
+	global
+	global
+	1.000 2.000 3.000
+	1.000 2.000 3.000
+*/
+
+function simple_print(x) {
+
+	print(x);
+}
+
+simple_print(1);
+simple_print("\nhello\n");
+
+function fract(x) {
+
+	if(x == 1)
+		return 1;
+	else
+		return x*fract(x-1);
+}
+
+print("fract(1): ", fract(1), " (must be 1)\n");
+print("fract(2): ", fract(2), " (must be 2)\n");
+print("fract(3): ", fract(3), " (must be 6)\n");
+print("fract(4): ", fract(4), " (must be 24)\n");
+
+function foo(f1, f2, x) {
+
+	print("foo: ", x, "\n");
+
+	if(x==0)
+		return x;
+
+	return f1(foo, f2, x-1);
+}
+
+function foo2(f1, f2, x) {
+
+	print("foo2: ", x, "\n");
+	return f2(foo2, f1, x+1);
+}
+
+function foo3(f1, f2, x) {
+
+	print("foo3: ", x, "\n");
+	return f2(f1, foo3, x-2);
+}
+
+foo(foo2, foo3, 10);
+/*
+Output for this:
+foo: 10
+foo2: 9
+foo3: 10
+foo: 8
+foo2: 7
+foo3: 8
+foo: 6
+foo2: 5
+foo3: 6
+foo: 4
+foo2: 3
+foo3: 4
+foo: 2
+foo2: 1
+foo3: 2
+foo: 0
+*/
+
+s_p=(function (x){return print(x);});
+s_p("hello world\n");
+
+function bar(){
+	s_p("hello world inside\n");
+	function bar(){
+		print("bar_\n");
+	}
+	bar();
+
+}
+bar();
+
+/*
+hello world
+hello world inside
+bar_
+*/
+
+function F(){
+	print("zero\n");	
+	function F(){
+		print("one\n");
+		return F;
+	}
+	return F;
+}
+
+F(); //zero
+F()(); //zero \n one
+
+function fscope() { print("global\n"); }
+{ 
+	function fscope() { print("scope1\n"); }
+	fscope();	//scope1
+	{
+		function fscope() {print("scope2\n");}
+		fscope();	//scope2
+		::fscope(); //global
+	}
+	::fscope();  	//global
+}
+fscope();		//global
+
+function fp(x) { print(x); return fp; }
+fp(1)(2)(3); 
+print("\n");
+//1 2 3 
+
+//t = [ (function fx(x){ print(x); return t; }) ];
+//t[0](1)[0](2)[0](3);
+
+//1 2 3

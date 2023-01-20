@@ -1,0 +1,60 @@
+// Function and array invalid return values check.
+/*
+expected output:
+
+id not number.
+10
+nil
+!! undef
+?? undef
+## nil
+
+
+// All heap blocks were freed -- no leaks are possible.
+*/
+
+
+nl = "\n";
+
+
+function new_student(){
+	student = [
+		{"add_id":(function (self, id){
+			if(typeof(id) != "number"){
+				print("id not number.\n");
+				return;
+			}
+			self.id = id;
+		})},
+		{"get_id":(function (self){
+			return self.id;
+		})}
+
+	];
+	return student;
+}
+
+student0 = new_student();
+student1 = new_student();
+student0..add_id(10);
+student1..add_id("10");
+print(student0..get_id(), nl);
+print(student1..get_id(), nl);
+
+/* -----------test 0------------ */
+function test0(){}
+print("!! ", typeof(test0()), nl);
+/* -----------test 1------------ */
+function test1(){
+	return;
+}
+print("?? ", typeof(test1()), nl);
+/* -----------test 2------------ */
+function test2(){
+	t = [10,9];
+	return t[2];
+}
+print("## ", typeof(test2()), nl);
+nl = nil;
+student0 = nil;
+student1 = nil;

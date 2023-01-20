@@ -1,0 +1,33 @@
+a = 1;
+
+b = 2;
+
+c = 3;
+
+print(a,b,c);
+
+{
+	d = 1; //scope 1
+}
+
+print(d); //scope 0
+
+e = not a == b;
+
+if (e) 
+	print("e is TRUE!");
+
+
+if (c >= d or b != 1)
+	f = c + b;
+	print(f);
+
+if (e and b < 1)
+	if (a == d)
+		g = 1;
+	else
+		g = 2;
+		if (d <= f or b < f)
+			g = 3;
+
+print(g);

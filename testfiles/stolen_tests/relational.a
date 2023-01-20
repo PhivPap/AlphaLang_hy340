@@ -1,0 +1,21 @@
+a = 1;
+
+b = 2;
+
+c = 3;
+
+print(a,b,c);
+
+d = b < c;
+
+e = not a == b;
+
+f = c >= d or b != 1;
+
+print(d,e,f);
+
+f = e >= d and c != b or not c > a;
+
+f = not f;
+
+print(f);

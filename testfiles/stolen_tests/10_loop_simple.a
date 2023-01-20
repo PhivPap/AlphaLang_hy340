@@ -1,0 +1,94 @@
+/*
+    Test file for the final phase of HY-340: Languages & Compilers
+    Computer science dpt, University of Crete, Greece
+
+    Expected Output:
+	GP SERIES (first:2, ratio:3)
+	1.000  3.000  9.000  27.000  81.000  243.000  729.000
+	Sum of the GP series till 7.000 terms is 1093.000
+
+	GP SERIES(first:2, ratio:2)
+	1.000  2.000  4.000  8.000  16.000  32.000  64.000
+	Product of the GP series till 7.000 terms is 2097152.000
+
+	 Even numbers till 60:
+	0.000  2.000  4.000  6.000  8.000  10.000  12.000  14.000  16.000  18.000  20.000  22.000  24.000  26.000  28.000  30.000  32.000  34.000  36.000  38.000  40.000  42.000  44.000  46.000  48.000  50.000  52.000  54.000  56.000  58.000
+
+	 Odd numbers till 60:
+	1.000  3.000  5.000  7.000  9.000  11.000  13.000  15.000  17.000  19.000  21.000  23.000  25.000  27.000  29.000  31.000  33.000  35.000  37.000  39.000  41.000  43.000  45.000  47.000  49.000  51.000  53.000  55.000  57.000  59.000 
+*/
+
+sp = " ";
+nl = "\n";
+
+/* ======== FOR LOOP - print the series and add all elements to sum ======== */
+terms = 7;
+first = 1;
+sum = 0;
+ratio = 3;
+
+value = first;
+print("GP SERIES (first:2, ratio:3)\n");
+for(i = 0; i < terms; i++) {
+    print(value);
+    print("  ");
+    sum = sum + value;
+    value = value * ratio;
+}
+
+print("\nSum of the GP series till ");
+print(terms);
+print(" terms is ");
+print(sum);
+
+
+/* ======== WHILE LOOP - print the series and times all elements to product ======== */
+i=0;
+product = 1;
+ratio = 2;
+
+value = first;
+print("\n\nGP SERIES(first:2, ratio:2)\n");
+while(i++ < terms) {
+    print(value);
+    print("  ");
+    product = product * value;
+    value = value * ratio;
+}
+
+print("\nProduct of the GP series till ");
+print(terms);
+print(" terms is ");
+print(product);
+
+
+/* ======== FOR LOOP WITH BC - print even numbers till 60 ======= */
+print("\n\n Even numbers till 60:\n");
+for(i=0;i<100;i++){
+  if (i==60)
+    break;
+
+  if(i%2 == 0){
+    print(i);
+    print("  ");
+    continue;
+  }
+}
+
+
+
+/* ======== WHILE LOOP WITH BC - print odd numbers till 60 ======= */
+print("\n\n Odd numbers till 60:\n");
+k=0;
+while(k++<60){
+  if (k==60)
+    break;
+
+  if(k%2 == 1){
+    print(k);
+    print("  ");
+    continue;
+  }
+}
+
+print(nl);

@@ -1,0 +1,20 @@
+// Creates a copy of a table, puts the table in the new copy: depth times.
+/*
+expected output:
+
+// a big table of tables with indexes = 0 and values tables.
+
+//All heap blocks were freed -- no leaks are possible
+*/
+
+function tableInception(depth){
+	a = [];
+	for(i=0; i<depth; i++){
+		tmp = objectcopy(a);
+		tmp[0] = a;
+		a = tmp;
+	}
+	print(a, "\n");
+}
+
+tableInception(10000);

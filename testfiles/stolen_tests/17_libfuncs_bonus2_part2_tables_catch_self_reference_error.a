@@ -1,0 +1,129 @@
+/*
+    Test file for the final phase of HY-340: Languages & Compilers
+    Computer science dpt, University of Crete, Greece
+
+    Expected Output:
+    [ { a : 1.000 }, { b : 2.000 }, { c : 3.000 }, { e : 5.000 }, { f : 6.000 } ]
+    5.000
+    Failed to convert parameter to number, in strtonum
+    WARNING: table[a] not found! at line 14
+    Failed to convert parameter to number, in strtonum
+    WARNING: table[b] not found! at line 14
+    Failed to convert parameter to number, in strtonum
+    WARNING: table[c] not found! at line 14
+    Failed to convert parameter to number, in strtonum
+    WARNING: table[e] not found! at line 14
+    Failed to convert parameter to number, in strtonum
+    WARNING: table[f] not found! at line 14
+    Must print 0: 0.000
+    Must print 5: 5.000
+    Must print true (shallow copy): true
+    WARNING: table[b] not found! at line 28
+    Must print true (shallow copy): true
+    Must print 'Hello, World!' (shallow copy):
+    Must print: variables: 4, functions: 2, tables: 1
+    variables:4.000 , functions:2.000 , tables:1.000
+    Danger! Type 'y' to proceed:
+
+    press y
+    segmentation fault -> self referemce
+
+*/
+
+nl = "\n";
+t = [ {"a" : 1}, {"b" : 2}, {"c" : 3}, {"d" : nil}, {"e" : 5}, {"f" : 6} ];
+
+tcopy = objectcopy(t);
+
+print(t,nl);
+print(objecttotalmembers(t), nl);
+
+keys = objectmemberkeys(t);
+n_elems = objecttotalmembers(t);
+
+for(i = 0; i < n_elems; ++i)
+{
+    t[keys[i]] = strtonum(keys[i]);
+}
+
+print("Must print 0: ", objecttotalmembers(t), nl);
+print("Must print 5: ", objecttotalmembers(tcopy), nl);
+
+///////////////////////////////////////////////////////////////////////////////
+
+t1 = [ {"t" : [ {"a" : 1}, {"b" : 2}, {"c" : 3}, {"d" : 4}, {"e" : 5}] } ];
+t2 = objectcopy(t1);
+
+t1["t"]["a"] = 13;
+print("Must print true (shallow copy): ", t1["t"]["a"] == t2["t"]["a"], nl);
+
+t1["t"]["b"] = nil;
+print("Must print true (shallow copy): ", objecttotalmembers(t1) == objecttotalmembers(t2), nl);
+
+print("Must print 'Hello, World!' (shallow copy): ", nl);
+t1["t"]["()"] = (function () { print("Hello, World!", nl); } );
+//t2["t"](); // Functor call equivalent to t2["t"]["()"]();
+
+/////////////////////////////////////////////////////////////////////////////
+
+function count_table_type(table, type)
+{
+    if(typeof(table) != "table" or typeof(type) != "string")
+    {
+        return;
+    }
+    
+    keys = objectmemberkeys(t);
+    n_elems = objecttotalmembers(t);
+    n = 0;  
+        
+    for(i = 0; i < n_elems; ++i)
+    {
+        if(typeof(t[keys[i]]) == type)
+        {
+            ++n;
+        }
+    }
+    
+    return n;
+}
+
+t = [ 
+        {"info" : (function() 
+                    { 
+                        self = argument(0);
+                        if(totalarguments() == 1 and typeof(self) == "table") 
+                        { 
+                            n_vars = count_table_type(self, "number") +
+                            count_table_type(self, "bool") + count_table_type(self, "string");
+                            n_funcs = count_table_type(self, "userfunc");
+                            n_tables = count_table_type(self, "table");
+                                        
+                            print("variables:", n_vars, ", functions:", n_funcs, ", tables:", n_tables, nl);
+                        }
+                    }) 
+        },
+        {"b" : 2}, {"c" : 3}, {"d" : true}, {"e" : "lala"}, {"f" : (function () {})}, {"g" : [1, 2, 3]}
+    ];
+        
+print("Must print: variables: 4, functions: 2, tables: 1", nl);
+t..info();
+
+/////////////////////////////////////////////////////////////////////////////
+
+print("Danger! Type 'y' to proceed: ");
+option = input();
+if(option == "y")
+{
+    tc = [];
+    tc["tc"] = tc;
+    print(tc);
+}
+else
+{
+    tc = [];
+    tc["tc"] = objectcopy(tc);
+    print(tc);
+}
+
+/////////////////////////////////////////////////////////////////////////////

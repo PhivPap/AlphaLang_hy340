@@ -1,0 +1,49 @@
+// Array bubble sort: from low to high.
+/*
+
+// All heap blocks were freed -- no leaks are possible
+*/
+
+function fillArray(table, n){
+	for(i=0; i<n; i++){
+		x = input();
+		while(typeof(x) != "number"){
+			print("Nuber only bjtch\n");
+			x = input();
+		}
+		table[i] = x;
+	}
+}
+
+function swap(table, i1, i2){
+	tmp = table[i1];
+	table[i1] = table[i2];
+	table[i2] = tmp;
+}
+
+function sortArray(GTR, table, n){
+	for(i=0; i<n-1; i++){
+		for(j=0; j<n-i-1; j++){
+			if(GTR(table[j], table[j+1])){
+				swap(table, j, j+1);
+			}
+		}
+	}
+}
+
+function printArray(table, n){
+	for(i=0; i<n; i++)
+		print(table[i], " ");
+	print("\n");
+}
+
+function main(){
+	table = [];
+	n = 10;
+	fillArray(table, n);
+	sortArray((function(a,b){ if(a>b) return true; return false;}), table, n);
+	printArray(table, n);
+}
+
+
+main();

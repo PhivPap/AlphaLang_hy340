@@ -1,0 +1,38 @@
+// Random (or not) number generator:
+/*
+expected output:
+
+//num from 2000 up to 3999
+
+//All heap blocks were freed -- no leaks are possible
+*/
+
+function rand(from, to){ // returns int >= from and < to
+	if(typeof(from) != "number" or typeof(to) != "number"){
+		print("rand expected 2 number args.\n");
+		return nil;
+	}
+	if(to <= from){
+		print("to <= from, invalid range.\n");
+		return nil;
+	}
+	range = to - from;
+	tableIndex = [];
+	table = [];
+	table[tableIndex] = 0;
+	for(i=1; i<range; i++){
+		table[i] = i;
+	}
+	newTable = objectmemberkeys(table);
+	for(i=0; i<range; i++){
+		if(typeof(newTable[i]) == "table")
+			return i + from;
+	}
+	print("The impossible happened\n");
+	return nil;
+
+}
+
+
+x = rand(2000,4000);
+print(x, "\n");

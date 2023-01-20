@@ -1,0 +1,33 @@
+// hashes many doubles in a row.
+/*
+
+expected output:
+
+total = 1020318
+
+
+// Run time: 2.143887
+// All heap blocks were freed -- no leaks are possible
+*/
+HASH = 55931;
+wrap_at = 103;
+
+function hash_number(number){
+	curr = 33;
+	while(number != 0){
+		curr = curr + ((number * HASH) % wrap_at);
+		number = number / 10;
+	}
+	return curr % wrap_at;
+}
+
+
+function hash_many_numbers(){
+	t = 0;
+	for(i=0; i<10000; i = i + 0.5){
+		t = t + hash_number(i);
+	}
+	print("total = ", t, "\n");
+}
+
+hash_many_numbers();

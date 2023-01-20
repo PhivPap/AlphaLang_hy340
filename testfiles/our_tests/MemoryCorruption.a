@@ -1,0 +1,26 @@
+// Memory corruption
+/*
+expected output:
+
+// Depends on insturctions.
+
+// All heap blocks were freed -- no leaks are possible
+*/
+
+global = 10;
+function f () {
+   	function justafunc (a1, a2, a3, a4){
+       a3 = 8180; // top
+       a4 = 17;	// pc
+    }
+    justafunc();
+}
+
+f();
+
+if(global != 10){
+	print("the impossible happened???\n");
+	global = 50;
+}
+
+print(global,"\n");

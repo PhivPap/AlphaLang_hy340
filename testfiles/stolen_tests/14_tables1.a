@@ -1,0 +1,58 @@
+/*
+    Test file for the final phase of HY-340: Languages & Compilers
+    Computer science dpt, University of Crete, Greece
+
+    Expected Output:
+    2.000
+    zero
+    1.000
+    1.000
+    true
+    0.000
+    hello
+    [ false, true, [ ], 5.000, [ hello, hi ], [ ] ]
+
+*/
+
+nl = "\n";
+
+vec0=[];
+
+vec1=[1, 2, 3];
+
+vec2= [false, true, [], 5, [ "hello", "hi" ], []];
+
+vectors = [vec0, vec1, vec2];
+
+vec3=[
+    {"x": vectors[0]},
+    {"y": vectors[1]}, 
+    {0 : "zero"}, 
+    {1 : "one"}
+];
+
+
+print(vec1[1], nl, vec3[0], nl); //2, zero
+
+print(vectors[1][0], nl); //1
+
+result=vec3.y[0];
+
+print(result, nl); // 1
+
+if(vectors[0] == vec0)
+    print("true");      //TRUE
+else
+    print("false");
+
+print(nl);    
+    
+vectors[0]=0;
+result=vectors[0];
+print(result, nl); //0
+
+vec3.y[2]=vec2[4][0];
+result=vec3.y[2];
+print(result, nl); //"hello"   
+
+print(vec2, nl);

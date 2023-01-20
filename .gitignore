@@ -1,0 +1,7 @@
+*.o
+alpha
+alphac
+*/parser.c
+*/scanner.c
+*.abc
+

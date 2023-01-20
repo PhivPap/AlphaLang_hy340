@@ -1,0 +1,76 @@
+/*
+    Test file for the final phase of HY-340: Languages & Compilers
+    Computer science dpt, University of Crete, Greece
+
+    Expected Output:
+    Find the element at position 6.000000
+
+    Before sorting:
+    14.000000, -2.000000, 5.000000, 133.000000, -20.000000, 85638.000000, 234.000000, -246.000000,
+
+    After sorting:
+    -246.000000, -20.000000, -2.000000, 5.000000, 14.000000, 133.000000, 234.000000, 85638.000000,
+*/
+
+
+/* ======== FOR LOOP WITH CONTINUE - search a number from array ======== */
+
+x=234;
+array = [14, -2, 3+2, 133, -20, 85634+ 4, x++,-246];
+SIZE = 8;
+
+needle = 234;
+
+// for loop with continue
+for (i = 0; i < SIZE; i++)
+{
+    if (needle != array[i])
+    {
+        continue;
+    }
+
+    print("Find the element at position ");
+    print(i);
+    print("\n");
+    break;
+}
+
+/* ======== NESTED FOR LOOPS - sort an array of numbers ======== */
+
+// nested for loops
+function bubbleSort(numbers, array_size) {
+  for (i = (array_size - 1); i > 0; i--) {
+    for (j = 1; j <= i; j++) {
+      if (numbers[j-1] > numbers[j]) {
+        temp = numbers[j-1];
+        numbers[j-1] = numbers[j];
+        numbers[j] = temp;
+      }
+    }
+  }
+}
+
+/* ======== WHILE WITH BC - print an array of numbers ======== */
+function printArray(numbers, size){
+  local i=0;
+  while(true){
+    print(numbers[i]);
+    print(", ");
+    if(++i >= size){
+      break;
+    }
+    else{
+      continue;
+    }
+  }
+}
+
+// function calls
+print("\nBefore sorting:\n");
+printArray(array, 8);
+
+bubbleSort(array, 8);
+
+print("\n\nAfter sorting:\n");
+printArray(array, 8);
+print("\n");

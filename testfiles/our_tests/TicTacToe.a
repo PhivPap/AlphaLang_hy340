@@ -1,0 +1,97 @@
+// tic tac toe:
+// Some still reachable bytes due to global array.
+
+t = [ ["-", "-", "-"], ["-", "-", "-"], ["-", "-", "-"] ];
+
+function isValidMove(x, y){
+	if(t[y] == nil)
+		return false;
+	if(t[y][x] == nil)
+		return false;
+	if(t[y][x] != "-")
+		return false;
+	return true;
+}
+
+function getPlayerMark(playerID){
+	print("Player '", playerID, "' marks:\n");
+	while(true){
+		print("Give x: ");
+		x = input();
+		while(typeof(x) != "number"){
+			print("number is required\n");
+			print("Give x: ");
+			x = input();
+		}
+		print("Give y: ");
+		y = input();
+		while(typeof(y) != "number"){
+			print("number is required\n");
+			print("Give y: ");
+			y = input();
+		}
+		if(isValidMove(x,y)){
+			return [x,y];
+		}
+		print("Invalid x,y given\n");
+	}
+}
+
+function playerWon(playerID){
+	diag1 = 0;
+	diag2 = 0;
+	for(i=0; i<3; i++){
+		if(t[i][0] == playerID and t[i][1] == playerID and t[i][2] == playerID)
+			return true;
+		if(t[0][i] == playerID and t[1][i] == playerID and t[2][i] == playerID)
+			return true;
+		if(t[i][i] == playerID)
+			diag1++;
+		if(t[2-i][i] == playerID)
+			diag2++;
+	}
+	if(diag1 == 3 or diag2 == 3)
+		return true;
+	return false;
+}
+
+function printTable(){
+	for(i=0; i<3; i++){
+		for(j=0; j<3; j++){
+			print(t[i][j], " ");
+		}
+		print("\n");
+	}
+}
+
+function main(){
+	player1 = "X";
+	player2 = "O";
+	currentPlayer;
+	gameFinished = false;
+	tie = false;
+	round = 0;
+	while(not gameFinished){
+		if(round == 9){
+			tie = true;
+			break;
+		}
+
+		if(round % 2 == 0)
+			currentPlayer = player1;
+		else
+			currentPlayer = player2;
+		printTable();
+		x_y = getPlayerMark(currentPlayer);
+		t[x_y[1]][x_y[0]] = currentPlayer;
+		round++;
+		if(playerWon(currentPlayer))
+			gameFinished = true;
+	}
+	if(tie)
+		print("Game is a tie\n");
+	else
+		print("Player '", currentPlayer, "' won\n");
+}
+
+main();
