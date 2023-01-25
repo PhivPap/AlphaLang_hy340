@@ -111,7 +111,6 @@
   int intval;
 }
 
-%expect 1
 %start program
 
 %token <tok> IF ELSE WHILE FOR FUNCTION RETURN BREAK CONTINUE LOCAL
@@ -1311,11 +1310,16 @@ int yyerror(char* yaccProvidedMessage){
 }
 
 
-bool argv_parser(int argc, char **argv, char **outFile, bool *run, char **inFile){
+bool argv_parser(int argc, char **argv, char **outFile, bool *run, bool *print_quads, bool *print_instr, char **inFile){
 	for(int i = 1; i < argc; i++){
-		if(strcmp(argv[i], "-run") == 0)
+		char *arg = argv[i];
+		if (strcmp(arg, "--instructions") == 0)
+			*print_instr = 1;
+		else if (strcmp(arg, "--quads") == 0)
+			*print_quads = 1;
+		else if(strcmp(arg, "--run") == 0)
 			*run = 1;
-		else if(strcmp(argv[i], "-o") == 0){
+		else if(strcmp(arg, "-o") == 0){
 			if(i == argc -1){
 				printf("alphac: error: missing filename after '-o'\n");
 				return 0;
@@ -1324,9 +1328,9 @@ bool argv_parser(int argc, char **argv, char **outFile, bool *run, char **inFile
 		}
 		else{
 			if(*inFile != NULL)
-				printf("alphac: warning: unknown argument '%s'\n", argv[i]);
+				printf("alphac: warning: unknown argument '%s'\n", arg);
 			else
-				*inFile = argv[i];
+				*inFile = arg;
 		}
 	}
 	return 1;
@@ -1335,8 +1339,8 @@ bool argv_parser(int argc, char **argv, char **outFile, bool *run, char **inFile
 int main(int argc, char **argv){
 	char *inFile = NULL;
 	char *outFile = "out.abc"; // default.
-	bool run = 0; // default.
-	argv_parser(argc, argv, &outFile, &run, &inFile);
+	bool run = 0, print_quads = 0, print_instr = 0; // defaults.
+	argv_parser(argc, argv, &outFile, &run, &print_quads, &print_instr, &inFile);
 	if(inFile == NULL){
 		printf("alphac error: no input file\n");
 		return 1;
@@ -1364,7 +1368,8 @@ int main(int argc, char **argv){
 		#ifdef __OPT
 			QuadArray_final_opt(quads);
 		#endif
-		//QuadArray_write_quads(quads);
+		if (print_quads)
+			QuadArray_write_quads(quads);
 		instructions = generate_target_code(quads);
 	}
   	fclose(yyin);
@@ -1372,7 +1377,8 @@ int main(int argc, char **argv){
 	ScopeList_free(list);	
 	SymTable_free_content(symtable);
 	SymTable_free(symtable);
-	//InstrArray_print(instructions);
+	if (print_instr)
+		InstrArray_print(instructions);
 	errorFlag = InstrArray_serializer(instructions, outFile, programVarOffset);
 	if(!errorFlag){
 		InstrArray_free(instructions);

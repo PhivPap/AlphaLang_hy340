@@ -32,26 +32,33 @@ Execute an Alpha binary file with:
 
 Alternatively, do both in one line:
 ```
-./alphac <source.a> -run
+./alphac <source.a> --run
+```
+
+Print the quads and human readable byte code with:
+```
+./alphac <source.a> --quads --instructions
 ```
 
 ## In other news
-While the language is sadly not described in this repo, you can try guessing with the provided testfiles. You can, however, rest assured knowing:
+While the language is sadly not described in this repo, you can try guessing with the provided testfiles. You can, however, know the following:
 * The Alpha compiler has:
+  * compile-time expression evaluation
   * dead code elimination
   * temporary variable reuse optimization
+  * minimal evaluation
 * The Alpha virtual machine has:
   * the following library functions: 
-    * ``print(...)`` - Variadic print function. It catches direct or indirect object self reference loops
-    * ``input()`` - Returns a line from console. Auto converts to other-than-string possible types.
-    * ``objectmemberkeys(t)`` - Returns a table with all the keys of "t" indexed from 0 and up.
-    * ``objecttotalmembers(t)`` - Returns the number of entries in "t".
-    * ``objectcopy(t)`` - Returns a shalow copy of "t".
-    * ``totalarguments()`` - Returns the number of arguments passed to the function from where it was called.
-    * ``argument(i)`` - Returns the ith argument of the function from where this was called in. Can be used with totalarguments() to create an Alpha variadic function.
-    * ``typeof(x)`` - Returns the type of "x" as a string.
-    * ``strtonum(s)`` - Converts string "s" to num.
-    * ``sqrt(n)`` - You won't believe what this one does.
+    * ``print(...)`` - Variadic print function. Catches direct or indirect object self reference loops
+    * ``input()`` - Returns line from console. Implicit convertion to other-than-string possible types.
+    * ``objectmemberkeys(t)`` - Returns a table with the keys of *t* indexed from 0 and up.
+    * ``objecttotalmembers(t)`` - Returns the number of entries in *t*.
+    * ``objectcopy(t)`` - Returns a shalow copy of *t*.
+    * ``totalarguments()`` - Returns argc of the calling function.
+    * ``argument(i)`` - Returns the *i*th argument of the function from where this was called in. Can be used with totalarguments() to create an Alpha variadic function.
+    * ``typeof(x)`` - Returns the type of *x* as a string.
+    * ``strtonum(s)`` - Converts string *s* to num.
+    * ``sqrt(n)`` - 
     * ``cos(n)`` -
     * ``sin(n)`` -
   * table functors (double dot ".." operator)
@@ -59,3 +66,4 @@ While the language is sadly not described in this repo, you can try guessing wit
   * tables which receive any type as key and value
   * string concat (ikr **damn**)
   * perfectly hashed library functions (i.e. they are called in O(1))
+  * complete garbage collection
