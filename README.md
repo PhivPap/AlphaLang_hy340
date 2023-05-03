@@ -3,7 +3,12 @@ Complete Compiler and Virtual Machine for Alpha
 
 Made in 2020 with [Labis Anargyrou](https://github.com/LabisAnargyrou) for [Languages & Compilers (hy340)](https://www.csd.uoc.gr/~hy340/) at [CSD](https://www.csd.uoc.gr/)
 
-![Alpha](https://user-images.githubusercontent.com/74933714/236004194-0698ca98-b8e2-435c-bdbf-d165bf225023.png)
+<!-- ![Alpha](https://user-images.githubusercontent.com/74933714/236004194-0698ca98-b8e2-435c-bdbf-d165bf225023.png) -->
+
+![alpha2](https://user-images.githubusercontent.com/74933714/236016864-b789c9ab-7b33-49e5-afb1-e68665360a96.png)
+
+![alpha3](https://user-images.githubusercontent.com/74933714/236016890-c14e4593-df54-4220-831b-5cdc23ca55e2.png)
+
 
 ## Linux Installation
 The Alpha compiler requires GNU Bison & Flex:
